@@ -1,29 +1,30 @@
 int Solution::maxp3(vector<int> &A) {
-    int min1, min2, max1, max2, max3;
-    min1 = min2 = INT_MAX;
-    max1 = max2 = max3 = INT_MIN;
-    int n = A.size();
-    for(int i=0; i<n; i++) {
-        if(A[i] > max1) {
-            max3 = max2;
-            max2 = max1;
-            max1 = A[i];
+    int maxA = INT_MIN, maxB = INT_MIN, maxC = INT_MIN;
+    int minA = INT_MAX, minB = INT_MAX;
+    for(int i = 0; i < A.size(); i++) {
+        if(A[i] > maxA) {
+            maxC = maxB;
+            maxB = maxA;
+            maxA = A[i];
         }
-        else if(A[i] > max2) {
-            max3 = max2;
-            max2 = A[i];
+        else if(A[i] > maxB) {
+            maxC = maxB;
+            maxB = A[i];
         }
-        else if(A[i] > max3) {
-            max3 = A[i];
+        else if(A[i] > maxC) {
+            maxC = A[i];
         }
-        if(A[i] < min1) {
-            min2 = min1;
-            min1 = A[i];
+        if(A[i] < minA) {
+            minB = minA;
+            minA = A[i];
         }
-        else if(A[i] < min2) {
-            min2 = A[i];
+        else if(A[i] < minB) {
+            minB = A[i];
         }
     }
-    return max(max1 * max2 * max3, min1 * min2 * max1);
+    int ans= INT_MIN;
+    ans = max(ans, maxA * maxB * maxC);
+    ans = max(ans, maxA * minA * minB);
+    return ans;
 }
 
