@@ -3,6 +3,7 @@ public:
     int movesToMakeZigzag(vector<int>& a) {
         int c1 = 0, c2 = 0, n = a.size();
         for(int i = 0; i < n; i++) {
+
             int temp = INT_MAX;
             if(i > 0) {
                 temp = min(temp, a[i - 1]);
