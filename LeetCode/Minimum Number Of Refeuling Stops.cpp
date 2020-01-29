@@ -1,9 +1,9 @@
 class Solution {
 public:
     int minRefuelStops(int target, int curr, vector<vector<int>>& s) {
+        int ret = 0, i = 0;
         priority_queue<int> pq;
-        int i = 0, res;
-        for(res = 0; curr < target; res++) {
+        while(curr < target) {
             while(i < s.size() && s[i][0] <= curr) {
                 pq.push(s[i++][1]);
             }
@@ -11,7 +11,8 @@ public:
                 return -1;
             curr += pq.top();
             pq.pop();
+            ret++;
         }
-        return res;
+        return ret;
     }
 };
