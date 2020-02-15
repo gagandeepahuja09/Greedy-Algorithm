@@ -1,18 +1,21 @@
+static bool cmp(vector<int> a, vector<int> b) {
+    return (a[1] < b[1]);
+}
+
 class Solution {
 public:
     int eraseOverlapIntervals(vector<vector<int>>& intervals) {
-        int n = intervals.size(), cnt = 0, px = INT_MIN, py = INT_MIN;
-        sort(intervals.begin(), intervals.end());
-        for(int i = 0; i < n; i++) {
-            int x = intervals[i][0], y = intervals[i][1];
-            if(py > x) {
-                cnt++;
-                py = min(py, y);
-            }
-            else {
-                px = x; py = y;
+        if(!intervals.size())
+            return 0;
+        int n = intervals.size();
+        sort(intervals.begin(), intervals.end(), cmp);
+        int prev = intervals[0][1], count = 1;
+        for(int i = 1; i < n; i++) {
+            if(intervals[i][0] >= prev) {
+                count++;
+                prev = intervals[i][1];
             }
         }
-        return cnt;
+        return n - count;
     }
 };
