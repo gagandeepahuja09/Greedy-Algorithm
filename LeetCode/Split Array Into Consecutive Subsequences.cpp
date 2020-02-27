@@ -1,26 +1,27 @@
 class Solution {
 public:
     bool isPossible(vector<int>& nums) {
-        unordered_map<int, int> prev;
-        unordered_map<int, int> next;
-        for(int num : nums) {
-            next[num]++;
-        }
-        for(int num : nums) {
-            if(!next[num])  // if already
+        unordered_map<int, int> cnts, tails;
+        for(int i : nums)
+            cnts[i]++;
+        for(int i : nums) {
+            if(!cnts[i])
                 continue;
-            else if(prev[num]) {   // if can be added in the last
-                prev[num]--;
-                next[num]--;
-                prev[num + 1]++;
+            cnts[i]--;
+            // Greedily our priority should be to add element to a sequence of length >= 3
+            // so we check if it's possible
+            if(tails[i - 1]) {
+                tails[i - 1]--;
+                tails[i]++;
             }
-            else if(next[num + 1] && next[num + 2]) { // if can start a new one 
-                next[num + 1]--;
-                next[num + 2]--;
-                next[num]--;
-                prev[num + 3]++;
+            // If not, we should starting forming a sequence only if nums[val + 1] and nums[val + 2]
+            // have some frequency
+            else if(cnts[i + 1] && cnts[i + 2]) {
+                cnts[i + 1]--;
+                cnts[i + 2]--;
+                tails[i + 2]++;
             }
-            else  // cannot be part of any sequence
+            else
                 return false;
         }
         return true;
